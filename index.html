@@ -83,28 +83,41 @@ section[id],main[id]{scroll-margin-top:72px}
 .facts span{display:flex;align-items:center;gap:8px}
 .facts .px{width:6px;height:6px;color:var(--ink)}
 
-/* chat demo */
-.demo{border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;height:520px;min-width:0}
-.demo-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);background:var(--surface)}
+/* scripted demo: chat on top, behind-the-scenes console below */
+.demo{border:1px solid var(--line);background:var(--bg);display:flex;flex-direction:column;height:600px;min-width:0}
+.demo-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);background:var(--surface)}
 .demo-head b{font-family:var(--f-display);font-weight:500;font-size:16px}
 .demo-head small{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
-.tag{font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line);padding:3px 8px;white-space:nowrap}
-.log{flex:1;overflow-y:auto;padding:18px;display:flex;flex-direction:column;gap:10px}
-.msg{max-width:82%;padding:10px 14px;font-size:14.5px;line-height:1.45;white-space:pre-line;animation:in .25s ease-out}
+.scenes{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.scene{font:500 12px var(--f-body);background:transparent;color:var(--muted);border:1px solid var(--line);padding:6px 10px;cursor:pointer}
+.scene.on{color:var(--bg);background:var(--ink);border-color:var(--ink)}
+.log{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:9px;scroll-behavior:smooth}
+.msg{max-width:84%;padding:9px 13px;font-size:14px;line-height:1.45;white-space:pre-line;animation:in .25s ease-out}
 .msg.bot{background:var(--surface);align-self:flex-start}
 .msg.me{background:var(--inv-bg);color:var(--inv-fg);align-self:flex-end}
-.sys{align-self:flex-start;font-family:var(--f-mono);font-size:11.5px;color:var(--muted);border-left:2px solid var(--ink);padding:6px 10px;max-width:90%;white-space:pre-line;animation:in .25s ease-out}
-.typing{align-self:flex-start;display:flex;gap:4px;padding:12px 14px;background:var(--surface)}
+.msg.human{align-self:flex-start;background:var(--bg);border:1px solid var(--ink)}
+.msg .who{display:block;font-family:var(--f-mono);font-size:10.5px;color:var(--muted);margin-bottom:3px;letter-spacing:.04em}
+.opts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.opts span{font-size:12.5px;border:1px solid var(--ink);padding:4px 10px;transition:background .2s,color .2s}
+.opts span.pick{background:var(--ink);color:var(--bg)}
+.event{align-self:center;font-family:var(--f-mono);font-size:11px;color:var(--muted);border:1px dashed var(--line);padding:4px 10px;animation:in .25s ease-out}
+.typing{align-self:flex-start;display:flex;gap:4px;padding:11px 13px;background:var(--surface)}
 .typing i{width:6px;height:6px;background:var(--muted);animation:blink 1s infinite}
 .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
-.chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 18px 14px}
-.chip{font:500 13.5px var(--f-body);background:transparent;color:var(--ink);border:1px solid var(--ink);padding:8px 13px;cursor:pointer}
-.chip:hover{background:var(--ink);color:var(--bg)}
-.compose{display:flex;border-top:1px solid var(--line)}
-.compose input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:15px var(--f-body);padding:14px 18px}
-.compose input::placeholder{color:var(--muted)}
-.compose button{border:0;border-left:1px solid var(--line);background:transparent;color:var(--ink);font:500 14px var(--f-body);padding:0 18px;cursor:pointer}
+.typebar{display:flex;align-items:center;border-top:1px solid var(--line);min-height:46px;padding:0 0 0 16px;font-size:14px}
+.typebar .t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.typebar .t:empty::before{content:"Escribí un mensaje…";color:var(--muted)}
+.typebar .send{align-self:stretch;display:flex;align-items:center;border-left:1px solid var(--line);padding:0 16px;font-weight:500;font-size:13px;color:var(--muted)}
+.typebar.active .send{color:var(--ink)}
+.console{background:var(--inv-bg);color:var(--inv-fg);height:168px;display:flex;flex-direction:column}
+.console-head{display:flex;justify-content:space-between;gap:10px;padding:9px 16px;font-family:var(--f-mono);font-size:11px;letter-spacing:.08em;color:var(--inv-muted);border-bottom:1px solid color-mix(in srgb,var(--inv-muted) 35%,transparent)}
+.console-head span:first-child{display:flex;align-items:center;gap:8px}
+.console-head span:first-child::before{content:"";width:6px;height:6px;background:var(--inv-fg)}
+#console{list-style:none;margin:0;padding:8px 16px 10px;overflow-y:auto;flex:1;font-family:var(--f-mono);font-size:11.5px;line-height:1.55;display:flex;flex-direction:column;gap:3px}
+#console li{display:grid;grid-template-columns:auto auto 1fr;gap:8px;animation:in .25s ease-out;color:var(--inv-muted)}
+#console li .k{color:var(--inv-fg)}
+#console li.last .k::after{content:" ●";color:var(--ok)}
 .demo-note{font-size:13px;color:var(--muted);margin-top:12px}
 @keyframes in{from{opacity:.2;transform:translateY(4px)}to{opacity:1;transform:none}}
 @keyframes blink{0%,100%{opacity:.25}50%{opacity:1}}
@@ -191,8 +204,21 @@ section.block{padding-block:76px;border-top:1px solid var(--line)}
 .fc .split{stroke:var(--muted);stroke-dasharray:2 4}
 
 /* steps, plans, faq, contact */
-.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));border-top:1px solid var(--ink)}
-.steps li{padding:20px 18px 0 0;display:grid;gap:8px;align-content:start;min-width:0}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative}
+.steps::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;background:var(--ink);transform-origin:left center}
+.steps li{position:relative;padding:22px 18px 0 0;display:grid;gap:8px;align-content:start;min-width:0}
+.steps li::before{content:"";position:absolute;left:0;top:-4px;width:9px;height:9px;background:var(--ink)}
+.steps.armed::before{transform:scaleX(0)}
+.steps.armed li{opacity:0;transform:translateX(-16px)}
+.steps.armed li::before{transform:scale(0)}
+.steps.play::before{transform:scaleX(1);transition:transform 2s cubic-bezier(.45,0,.2,1)}
+.steps.play li{opacity:1;transform:none;transition:opacity .5s ease-out,transform .5s ease-out}
+.steps.play li::before{transform:none;transition:transform .3s ease-out}
+.steps.play li:nth-child(1),.steps.play li:nth-child(1)::before{transition-delay:.1s}
+.steps.play li:nth-child(2),.steps.play li:nth-child(2)::before{transition-delay:.5s}
+.steps.play li:nth-child(3),.steps.play li:nth-child(3)::before{transition-delay:.9s}
+.steps.play li:nth-child(4),.steps.play li:nth-child(4)::before{transition-delay:1.3s}
+.steps.play li:nth-child(5),.steps.play li:nth-child(5)::before{transition-delay:1.7s}
 .steps .n{font-family:var(--f-mono);font-size:12px;color:var(--muted)}
 .steps h3{font-weight:500;font-size:17px}
 .steps p{font-size:14.5px;color:var(--muted)}
@@ -256,8 +282,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
   .hero .wrap,.contact .wrap{grid-template-columns:1fr;gap:40px}
   .plans{grid-template-columns:repeat(2,minmax(0,1fr))}
   .lab{grid-template-columns:1fr}
-  .steps{grid-template-columns:1fr;border-top:0}
-  .steps li{border-top:1px solid var(--line);padding:18px 0}
+  .steps{grid-template-columns:1fr}
+  .steps::before{display:none}
+  .steps li{border-top:1px solid var(--line);padding:20px 0 18px}
   .flow-legend{grid-template-columns:repeat(2,minmax(0,1fr))}
   .nav a:not(.cta){display:none}
 }
@@ -266,7 +293,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
   .plans{grid-template-columns:1fr}
   .hero .wrap{padding-block:40px 48px}
   section.block{padding-block:56px}
-  .demo{height:480px}
+  .demo{height:600px}
+  .demo-head{flex-wrap:wrap}
   .brand span{font-size:22px}
   .brand img{height:28px}
   .nav{gap:10px}
@@ -322,22 +350,25 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
       </div>
 
       <div id="demo">
-        <div class="demo" aria-label="Demo de chatbot">
+        <div class="demo" aria-label="Demo animada de un bot de turnos con lo que hace por detrás">
           <div class="demo-head">
             <div>
               <b>Peluquería Lumi</b>
               <small><span class="dot"></span>asistente en línea</small>
             </div>
-            <span class="tag">DEMO</span>
+            <div class="scenes" id="scenes">
+              <button class="scene on" type="button" data-s="0">Sacar turno</button>
+              <button class="scene" type="button" data-s="1">Pedido especial</button>
+            </div>
           </div>
-          <div class="log" id="log" aria-live="polite"></div>
-          <div class="chips" id="chips"></div>
-          <form class="compose" id="compose" autocomplete="off">
-            <input id="demo-input" type="text" placeholder="Escribí un mensaje…" aria-label="Mensaje">
-            <button type="submit">Enviar</button>
-          </form>
+          <div class="log" id="log"></div>
+          <div class="typebar" id="typebar" aria-hidden="true"><span class="t" id="typed"></span><span class="send">Enviar</span></div>
+          <div class="console">
+            <div class="console-head"><span>detrás de escena</span><span>n8n · flujo turnos</span></div>
+            <ol id="console" aria-label="Acciones del bot"></ol>
+          </div>
         </div>
-        <p class="demo-note">Negocio de ejemplo. Probá sacar un turno o pedir hablar con una persona.</p>
+        <p class="demo-note">Conversación de ejemplo. Abajo se ve lo que hace el bot por detrás mientras responde.</p>
       </div>
     </div>
   </section>
@@ -458,7 +489,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
         <div class="label"><span class="px"></span>cómo trabajamos</div>
         <h2>De la primera charla al bot funcionando</h2>
       </div>
-      <ol class="steps rv">
+      <ol class="steps">
         <li><span class="n">01</span><h3>Diagnóstico gratis</h3><p>30 minutos para ver qué consultas recibís y qué tareas se repiten.</p></li>
         <li><span class="n">02</span><h3>Propuesta</h3><p>Plan recomendado y precio cerrado, por escrito.</p></li>
         <li><span class="n">03</span><h3>Armado</h3><p>Cargamos tus preguntas, horarios y precios, y lo conectamos a tus cuentas.</p></li>
@@ -629,50 +660,101 @@ const BRAIN = [
   size();
 })();
 
-/* chat demo */
+/* scripted demo: real-sounding chat plus what the bot does behind the scenes */
 (function(){
-  const log = document.getElementById("log"), chipsEl = document.getElementById("chips");
-  const history = [], pick = {}; let busy = false;
-  function add(cls, text){ const d = document.createElement("div"); d.className = cls; d.textContent = text; log.appendChild(d); log.scrollTop = log.scrollHeight; }
-  function chips(list){
-    chipsEl.innerHTML = "";
-    list.forEach(([label, fn]) => {
-      const b = document.createElement("button"); b.className = "chip"; b.type = "button"; b.textContent = label;
-      b.addEventListener("click", () => { if (busy) return; me(label); fn(); });
-      chipsEl.appendChild(b);
-    });
+  const log = document.getElementById("log"), con = document.getElementById("console");
+  const typed = document.getElementById("typed"), bar = document.getElementById("typebar");
+  const sceneBtns = [...document.querySelectorAll(".scene")];
+  // who: me (cliente) · bot · human (persona del negocio) · event (aviso en el chat) · sys (consola) · pick (toca una opción)
+  const SCENES = [
+    [
+      { who: "me", text: "hola! tienen turno el sábado para corte y color? llego tipo 11" },
+      { who: "sys", k: "whatsapp", text: "mensaje recibido" },
+      { who: "sys", k: "ia", text: "intención: turno · corte + color · sábado · ~11:00" },
+      { who: "sys", k: "calendar", text: "corte + color = 2 h · sábado 11:00 ocupado" },
+      { who: "bot", text: "¡Hola! El sábado a las 11 no tenemos lugar para corte y color, que lleva unas 2 horas. ¿Te sirve alguno de estos horarios?", opts: ["11:30", "14:00", "16:30"] },
+      { who: "pick", text: "11:30" },
+      { who: "sys", k: "calendar", text: "turno creado · sábado 11:30 a 13:30" },
+      { who: "sys", k: "recordatorio", text: "programado · viernes 18:00" },
+      { who: "bot", text: "Listo, te espero el sábado a las 11:30. El viernes te mando un recordatorio. ¿A nombre de quién lo dejo?" },
+      { who: "me", text: "Sofi" },
+      { who: "sys", k: "planilla", text: "clienta nueva: Sofi · turno sábado 11:30" },
+      { who: "bot", text: "Gracias, Sofi. ¡Nos vemos el sábado!" }
+    ],
+    [
+      { who: "me", text: "hola, vamos con mi hermana a hacernos alisado las dos, nos hacen algún precio?" },
+      { who: "sys", k: "whatsapp", text: "mensaje recibido" },
+      { who: "sys", k: "ia", text: "intención: precio especial · alisado · 2 personas" },
+      { who: "sys", k: "reglas", text: "descuentos → los decide una persona" },
+      { who: "bot", text: "¡Qué buen plan! El alisado sale $45.000 por persona. Los precios especiales los define Carla, así que ya le pasé tu consulta." },
+      { who: "sys", k: "derivación", text: "a Carla · horario 9 a 19 h" },
+      { who: "sys", k: "resumen", text: "2 personas · alisado · pide precio especial" },
+      { who: "event", text: "Carla se sumó a la conversación" },
+      { who: "human", name: "Carla · Lumi", text: "¡Hola! Si vienen juntas les hago 15 % a cada una. ¿Qué día les queda bien?" },
+      { who: "sys", k: "bot", text: "en pausa mientras atiende Carla" }
+    ]
+  ];
+  let run = 0, scene = 0, clock = 10 * 3600 + 42 * 60 + 3, started = false, visible = true;
+  const sleep = ms => new Promise(r => setTimeout(r, reduce ? 0 : ms));
+  const hhmmss = t => [Math.floor(t / 3600), Math.floor(t / 60) % 60, t % 60].map(n => String(n).padStart(2, "0")).join(":");
+  const scroll = () => { log.scrollTop = log.scrollHeight; con.scrollTop = con.scrollHeight; };
+  function bubble(step){
+    const d = document.createElement("div");
+    if (step.who === "event") { d.className = "event"; d.textContent = step.text; }
+    else {
+      d.className = "msg " + (step.who === "pick" ? "me" : step.who);
+      if (step.who === "human") { const w = document.createElement("span"); w.className = "who"; w.textContent = step.name; d.appendChild(w); }
+      d.appendChild(document.createTextNode(step.text));
+      if (step.opts) { const o = document.createElement("div"); o.className = "opts"; step.opts.forEach(x => { const sp = document.createElement("span"); sp.textContent = x; o.appendChild(sp); }); d.appendChild(o); }
+    }
+    log.appendChild(d); scroll();
   }
-  function me(text){ add("msg me", text); history.push(text); }
-  function bot(lines, next){
-    busy = true; chipsEl.innerHTML = "";
-    const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>";
-    log.appendChild(t); log.scrollTop = log.scrollHeight;
-    setTimeout(() => { t.remove(); lines.forEach(([c, x]) => add(c, x)); busy = false; if (next) next(); }, reduce ? 150 : 650);
+  function line(step){
+    clock += 1 + Math.floor(Math.random() * 2);
+    con.querySelectorAll("li.last").forEach(l => l.classList.remove("last"));
+    const li = document.createElement("li"); li.className = "last";
+    li.innerHTML = `<span>${hhmmss(clock)}</span><span class="k"></span><span></span>`;
+    li.children[1].textContent = step.k; li.children[2].textContent = step.text;
+    con.appendChild(li); scroll();
   }
-  const menu = () => chips([["Sacar turno", servicio], ["Ver precios", precios], ["Hablar con una persona", humano]]);
-  function inicio(first){ bot([["msg bot", first ? "¡Hola! Soy el asistente de Peluquería Lumi. ¿En qué te ayudo?" : "¿Te ayudo con algo más?"]], menu); }
-  function servicio(){ bot([["msg bot", "¿Qué servicio querés?"]], () => chips(["Corte", "Color", "Peinado"].map(s => [s, () => { pick.s = s; dia(); }]))); }
-  function dia(){ bot([["msg bot", "¿Qué día te queda bien?"]], () => chips(["Mañana", "Viernes", "Sábado"].map(d => [d, () => { pick.d = d; hora(); }]))); }
-  function hora(){ bot([["msg bot", "Estos horarios están libres:"]], () => chips(["10:00", "11:30", "16:00"].map(h => [h, () => { pick.h = h; listo(); }]))); }
-  function listo(){
-    const d = pick.d === "Mañana" ? "mañana" : "el " + pick.d.toLowerCase();
-    bot([["msg bot", `Listo. Te reservé ${pick.s.toLowerCase()} ${d} a las ${pick.h}.\nTe mando un recordatorio el día anterior.`],
-         ["sys", "↳ turno agendado en Google Calendar\n↳ recordatorio programado"]], () => chips([["Volver al inicio", () => inicio(false)]]));
+  function reset(){ log.innerHTML = ""; con.innerHTML = ""; typed.textContent = ""; bar.classList.remove("active"); clock = 10 * 3600 + 42 * 60 + 3; }
+  function instant(n){ reset(); SCENES[n].forEach(st => st.who === "sys" ? line(st) : bubble(st)); }
+  async function play(n){
+    const id = ++run; scene = n; sceneBtns.forEach((b, i) => b.classList.toggle("on", i === n));
+    reset(); await sleep(500);
+    for (const st of SCENES[n]) {
+      if (id !== run) return;
+      if (st.who === "me") {
+        bar.classList.add("active");
+        for (let i = 1; i <= st.text.length; i++) { if (id !== run) return; typed.textContent = st.text.slice(0, i); await sleep(28); }
+        await sleep(250); typed.textContent = ""; bar.classList.remove("active"); bubble(st); await sleep(500);
+      } else if (st.who === "pick") {
+        const opts = [...log.querySelectorAll(".opts span")].filter(x => x.textContent === st.text);
+        await sleep(700); if (opts.length) opts[opts.length - 1].classList.add("pick"); await sleep(400); bubble(st); await sleep(500);
+      } else if (st.who === "sys") { line(st); await sleep(650); }
+      else if (st.who === "event") { bubble(st); await sleep(900); }
+      else {
+        const t = document.createElement("div"); t.className = "typing"; t.innerHTML = "<i></i><i></i><i></i>"; log.appendChild(t); scroll();
+        await sleep(st.who === "human" ? 1600 : 900); t.remove(); bubble(st); await sleep(900);
+      }
+    }
+    await sleep(4500);
+    while (id === run && (!visible || document.hidden)) await sleep(1000);
+    if (id === run) play((n + 1) % SCENES.length);
   }
-  function precios(){ bot([["msg bot", "Corte: $15.000\nColor: desde $35.000\nPeinado: $20.000\n(precios de ejemplo)"]], () => chips([["Sacar turno", servicio], ["Hablar con una persona", humano]])); }
-  function humano(){
-    const c = history.filter(h => !["Hablar con una persona", "Volver al inicio"].includes(h));
-    const resumen = c.length ? c.slice(-4).join(" · ") : "sin consultas previas";
-    bot([["msg bot", "Te paso con Carla. Ya le dejé tu consulta resumida, así no tenés que repetir nada."],
-         ["sys", `↳ resumen para Carla\nconsultó: ${resumen}\nhorario de atención: 9 a 19 h`]], () => chips([["Volver al inicio", () => inicio(false)]]));
-  }
-  document.getElementById("compose").addEventListener("submit", e => {
-    e.preventDefault();
-    const input = document.getElementById("demo-input"), v = input.value.trim(); if (!v || busy) return;
-    input.value = ""; me(v);
-    bot([["msg bot", "En la versión real, la IA entiende mensajes escritos como este. En la demo, usá los botones para ver el recorrido."]], menu);
-  });
-  inicio(true);
+  sceneBtns.forEach((b, i) => b.addEventListener("click", () => { if (reduce) { sceneBtns.forEach((x, j) => x.classList.toggle("on", j === i)); instant(i); } else play(i); }));
+  instant(0);
+  if (reduce) return;
+  new IntersectionObserver(es => { visible = es[0].isIntersecting; if (visible && !started) { started = true; setTimeout(() => play(0), 900); } }).observe(log);
+})();
+
+/* steps timeline drawn left to right */
+(function(){
+  const el = document.querySelector(".steps");
+  if (reduce || !el || !("IntersectionObserver" in window) || el.getBoundingClientRect().top < innerHeight) return;
+  el.classList.add("armed");
+  const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { el.classList.add("play"); io.disconnect(); } }, { threshold: .35 });
+  io.observe(el);
 })();
 
 /* flow diagram pulses */
